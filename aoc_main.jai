@@ -27,9 +27,7 @@ puzzle_func :: ()
 {
 	print("Puzzle One : \n");
 	content, success := read_entire_file("input1.txt");
-	
 	lines := split(content, "\n");
-	
 	count, highest : int = 0;
 	
 	for line : lines 
@@ -48,9 +46,7 @@ puzzle_func_2 :: ()
 {
 	print("Puzzle Two : \n");
 	content, success := read_entire_file("input1.txt");
-	
 	lines := split(content, "\n");
-	
 	count, first, second, third : int = 0;
 	
 	for line : lines 
@@ -71,18 +67,14 @@ puzzle_func_2 :: ()
 	print("%\n", first + second + third);
 }
 
-read_input :: ()
-{
-	
-}
-
 main :: ()
 {
 	temp_context := context;
 	temp_context.allocator = temp;
 	
 	push_context temp_context {							
-		puzzle_func();
-		puzzle_func_2();
+		timer_macro(puzzle_func());
+		timer_macro(puzzle_func_2());
 	}
+	reset_temporary_storage();
 }
