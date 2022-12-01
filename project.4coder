@@ -1,0 +1,31 @@
+version(1); 
+project_name = "aoc_2022"; 
+patterns = { 
+    "*.jai", 
+    "*.cpp", 
+    "*.c", 
+    "*.h", 
+    "*.bat", 
+    "*.cmd", 
+    "*.4coder" 
+};
+
+blacklist_patterns = { 
+    ".*", 
+}; 
+load_paths = { 
+    { 
+		{ 
+            {"/", .relative = true, .recursive = true, }, 
+			{"C:/jai/modules/", .relative = false, .recursive = false, },
+			{"C:/jai/modules/Basic/", .relative = false, .recursive = true, },
+			{"C:/jai/modules/String/", .relative = false, .recursive = true, },
+			{"C:/jai/modules/Windows/", .relative = false, .recursive = true, },
+			{"C:/jai/modules/Windows_Utf8/", .relative = false, .recursive = true, },
+			{"C:/jai/modules/Math/", .relative = false, .recursive = true, },
+			{"C:/jai/modules/File/", .relative = false, .recursive = true, },
+			{"C:/jai/modules/Render/", .relative = false, .recursive = true, },
+			{"C:/jai_modules/", .relative = false, .recursive = true, }
+		}, .os = "win"
+	} 
+}; 

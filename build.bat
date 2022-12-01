@@ -1,7 +1,5 @@
 @echo off
 
-jai aoc_meta.jai
+jai aoc_main.jai
 
-pushd day%1
-day%1.exe
-popd
+aoc_main.exe
