@@ -2,6 +2,8 @@
 #import "Windows";
 #import "PCG";
 #import "Machine_X64";
+#import "File";
+#import "String";
 
 timer_macro :: (code : Code) -> s64 #expand {
 	begin_counter, end_counter, perf_frequency : s64;
@@ -23,10 +25,55 @@ timer_macro :: (code : Code) -> s64 #expand {
 
 puzzle_func :: ()
 {
+	print("Puzzle One : \n");
+	content, success := read_entire_file("input1.txt");
+	
+	lines := split(content, "\n");
+	
+	count, highest : int = 0;
+	
+	for line : lines 
+	{
+		if line.count == 1 {
+			if count > highest highest = count;
+			count = 0;
+		}
+		else count += parse_int(*line);
+	}
+	
+	print("%\n", highest);
 }
 
 puzzle_func_2 :: ()
 {
+	print("Puzzle Two : \n");
+	content, success := read_entire_file("input1.txt");
+	
+	lines := split(content, "\n");
+	
+	count, first, second, third : int = 0;
+	
+	for line : lines 
+	{
+		if line.count == 1
+		{
+			if count > third
+			{
+				third = count;
+				if third > second second, third = swap(second, third);
+				if second > first first, second = swap(first, second);
+			}
+			count = 0;
+		}
+		else count += parse_int(*line);
+	}
+	print("% + % + %\n", first, second, third);
+	print("%\n", first + second + third);
+}
+
+read_input :: ()
+{
+	
 }
 
 main :: ()
