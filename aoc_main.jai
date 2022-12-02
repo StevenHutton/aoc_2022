@@ -27,10 +27,11 @@ timer_macro :: (code : Code) -> s64 #expand {
 
 puzzle_func :: ()
 {
+	val := "steven\nbarry\nhutton\nthe\nthi rd\n";
+	
 	print("Puzzle One : \n");
-	content, success := read_entire_file("input2.txt");
-	lines := split(content, cast(u8) #char "\n");
-	for *line : lines line.count -= 1;
+	content, success := read_entire_file("input2.c");
+	lines := split(content, "\r\n");
 	
 	hash_table : Table(string, int);
 	init(*hash_table);
@@ -61,10 +62,9 @@ puzzle_func :: ()
 
 puzzle_func_2 :: ()
 {
-	print("Puzzle One : \n");
-	content, success := read_entire_file("input2.txt");
-	lines := split(content, cast(u8) #char "\n");
-	for *line : lines line.count -= 1;
+	print("Puzzle Two : \n");
+	content, success := read_entire_file("input2.c");
+	lines := split(content, "\r\n");
 	
 	hash_table : Table(string, int);
 	init(*hash_table);
