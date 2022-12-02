@@ -4,6 +4,8 @@
 #import "Machine_X64";
 #import "File";
 #import "String";
+#import "Hash";
+#import "Hash_Table";
 
 timer_macro :: (code : Code) -> s64 #expand {
 	begin_counter, end_counter, perf_frequency : s64;
@@ -26,45 +28,69 @@ timer_macro :: (code : Code) -> s64 #expand {
 puzzle_func :: ()
 {
 	print("Puzzle One : \n");
-	content, success := read_entire_file("input1.txt");
-	lines := split(content, "\n");
-	count, highest : int = 0;
+	content, success := read_entire_file("input2.txt");
+	lines := split(content, cast(u8) #char "\n");
+	for *line : lines line.count -= 1;
 	
-	for line : lines 
-	{
-		if line.count == 1 {
-			if count > highest highest = count;
-			count = 0;
-		}
-		else count += parse_int(*line);
+	hash_table : Table(string, int);
+	init(*hash_table);
+	
+	//rick vs 
+	table_add(*hash_table, "A X", 4);//rock
+	table_add(*hash_table, "A Y", 8);//paper
+	table_add(*hash_table, "A Z", 3);//scissors
+	//paper vs
+	table_add(*hash_table, "B X", 1);
+	table_add(*hash_table, "B Y", 5);
+	table_add(*hash_table, "B Z", 9);
+	//scis vs
+	table_add(*hash_table, "C X", 7);
+	table_add(*hash_table, "C Y", 2);
+	table_add(*hash_table, "C Z", 6);
+	
+	result : int = 0;
+	for line : lines {
+		value, success := table_find(*hash_table, line);
+		if !success print("% %\n", line, it_index);
+		
+		result += value;
 	}
 	
-	print("%\n", highest);
+	print("%\n", result);
 }
 
 puzzle_func_2 :: ()
 {
-	print("Puzzle Two : \n");
-	content, success := read_entire_file("input1.txt");
-	lines := split(content, "\n");
-	count, first, second, third : int = 0;
+	print("Puzzle One : \n");
+	content, success := read_entire_file("input2.txt");
+	lines := split(content, cast(u8) #char "\n");
+	for *line : lines line.count -= 1;
 	
-	for line : lines 
-	{
-		if line.count == 1
-		{
-			if count > third
-			{
-				third = count;
-				if third > second second, third = swap(second, third);
-				if second > first first, second = swap(first, second);
-			}
-			count = 0;
-		}
-		else count += parse_int(*line);
+	hash_table : Table(string, int);
+	init(*hash_table);
+	
+	//rock vs 
+	table_add(*hash_table, "A X", 3);//lose
+	table_add(*hash_table, "A Y", 4);//draw
+	table_add(*hash_table, "A Z", 8);//win
+	//paper vs
+	table_add(*hash_table, "B X", 0 + 1);
+	table_add(*hash_table, "B Y", 3 + 2);
+	table_add(*hash_table, "B Z", 6 + 3);
+	//scis vs
+	table_add(*hash_table, "C X", 0 + 2);
+	table_add(*hash_table, "C Y", 3 + 3);
+	table_add(*hash_table, "C Z", 6 + 1);
+	
+	result : int = 0;
+	for line : lines {
+		value, success := table_find(*hash_table, line);
+		if !success print("% %\n", line, it_index);
+		
+		result += value;
 	}
-	print("% + % + %\n", first, second, third);
-	print("%\n", first + second + third);
+	
+	print("%\n", result);
 }
 
 main :: ()
