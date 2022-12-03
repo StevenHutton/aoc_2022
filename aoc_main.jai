@@ -25,69 +25,57 @@ timer_macro :: (code : Code) -> s64 #expand {
 	return elapsed_time;
 }
 
+convert_value :: (value : u8) -> u8
+{
+	if value >= 97 value -= 96;
+	else {
+		value -= 38;
+	}
+	return value;
+}
+
 puzzle_func :: ()
 {
-	val := "steven\nbarry\nhutton\nthe\nthi rd\n";
-	
 	print("Puzzle One : \n");
-	content, success := read_entire_file("input2.c");
+	content, success := read_entire_file("input3.txt");
 	lines := split(content, "\r\n");
-	
-	hash_table : Table(string, int);
-	init(*hash_table);
-	
-	//rick vs 
-	table_add(*hash_table, "A X", 4);//rock
-	table_add(*hash_table, "A Y", 8);//paper
-	table_add(*hash_table, "A Z", 3);//scissors
-	//paper vs
-	table_add(*hash_table, "B X", 1);
-	table_add(*hash_table, "B Y", 5);
-	table_add(*hash_table, "B Z", 9);
-	//scis vs
-	table_add(*hash_table, "C X", 7);
-	table_add(*hash_table, "C Y", 2);
-	table_add(*hash_table, "C Z", 6);
 	
 	result : int = 0;
 	for line : lines {
-		value, success := table_find(*hash_table, line);
-		if !success print("% %\n", line, it_index);
+		part1 := line;
+		part1.count = line.count/2;
+		part2 := line;
+		part2.count = line.count/2;
+		part2.data += line.count/2;
 		
-		result += value;
+		index := find_index_of_any_from_left(part2, part1);
+		result += convert_value(part2[index]);;
 	}
-	
 	print("%\n", result);
 }
 
 puzzle_func_2 :: ()
 {
 	print("Puzzle Two : \n");
-	content, success := read_entire_file("input2.c");
+	content, success := read_entire_file("input3.txt");
 	lines := split(content, "\r\n");
 	
-	hash_table : Table(string, int);
-	init(*hash_table);
-	
-	//rock vs 
-	table_add(*hash_table, "A X", 3);//lose
-	table_add(*hash_table, "A Y", 4);//draw
-	table_add(*hash_table, "A Z", 8);//win
-	//paper vs
-	table_add(*hash_table, "B X", 0 + 1);
-	table_add(*hash_table, "B Y", 3 + 2);
-	table_add(*hash_table, "B Z", 6 + 3);
-	//scis vs
-	table_add(*hash_table, "C X", 0 + 2);
-	table_add(*hash_table, "C Y", 3 + 3);
-	table_add(*hash_table, "C Z", 6 + 1);
-	
 	result : int = 0;
-	for line : lines {
-		value, success := table_find(*hash_table, line);
-		if !success print("% %\n", line, it_index);
+	iterator := 0;
+	while iterator < lines.count
+	{
+		for 0..lines[iterator].count-1 {
+			index := find_index_from_left(lines[iterator+1], lines[iterator][it]);
+			if index == -1 continue;
+			
+			index2 := find_index_from_left(lines[iterator+2], lines[iterator][it]);
+			if index2 != -1 {
+				result += convert_value(lines[iterator][it]);
+				break;
+			}
+		}
 		
-		result += value;
+		iterator += 3;
 	}
 	
 	print("%\n", result);
