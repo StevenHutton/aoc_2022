@@ -22,18 +22,21 @@ puzzle_func :: ()
 	content, success := read_entire_file("input.txt");
 	lines := split(content, "\r\n");
 	
-	result : int = 0;
+	count := 0;
 	for line : lines {
-		part1 := line;
-		part1.count = line.count/2;
-		part2 := line;
-		part2.count = line.count/2;
-		part2.data += line.count/2;
+		ranges := split(line, ",");
+		vals1 := split(ranges[0], "-");
+		vals2 := split(ranges[1], "-");
 		
-		index := find_index_of_any_from_left(part2, part1);
-		result += convert_value(part2[index]);;
+		low1 := parse_int(*vals1[0]);
+		high1 := parse_int(*vals1[1]);
+		low2 := parse_int(*vals2[0]);
+		high2 := parse_int(*vals2[1]);
+		
+		if (low1 <= low2 && high1 >= high2) || (low2 <= low1 && high2 >= high1) count += 1;
 	}
-	print("%\n", result);
+	
+	print("%\n", count);
 }
 
 puzzle_func_2 :: ()
@@ -42,25 +45,21 @@ puzzle_func_2 :: ()
 	content, success := read_entire_file("input.txt");
 	lines := split(content, "\r\n");
 	
-	result : int = 0;
-	iterator := 0;
-	while iterator < lines.count
-	{
-		for 0..lines[iterator].count-1 {
-			index := find_index_from_left(lines[iterator+1], lines[iterator][it]);
-			if index == -1 continue;
-			
-			index2 := find_index_from_left(lines[iterator+2], lines[iterator][it]);
-			if index2 != -1 {
-				result += convert_value(lines[iterator][it]);
-				break;
-			}
-		}
+	count := 0;
+	for line : lines {
+		ranges := split(line, ",");
+		vals1 := split(ranges[0], "-");
+		vals2 := split(ranges[1], "-");
 		
-		iterator += 3;
+		low1 := parse_int(*vals1[0]);
+		high1 := parse_int(*vals1[1]);
+		low2 := parse_int(*vals2[0]);
+		high2 := parse_int(*vals2[1]);
+		
+		if low1 <= high2 && high1 >= low2 count += 1;
 	}
 	
-	print("%\n", result);
+	print("%\n", count);
 }
 
 main :: ()
