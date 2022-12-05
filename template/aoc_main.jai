@@ -10,16 +10,14 @@
 puzzle_func :: ()
 {
 	print("Puzzle One : \n");
-	content, success := read_entire_file("input.txt");
-	lines := split(content, "\r\n");
+	lines := read_file_to_lines("input.txt");
 	print("%\n", result);
 }
 
 puzzle_func_2 :: ()
 {
 	print("Puzzle Two : \n");
-	content, success := read_entire_file("input.txt");
-	lines := split(content, "\r\n");
+	lines := read_file_to_lines("input.txt");
 	print("%\n", result);
 }
 

@@ -18,3 +18,24 @@ timer_macro :: (code : Code) -> s64 #expand {
 	print("Time : %ms, MegaCycles : %\n", elapsed_time, elasped_cycles / (1000*1000));
 	return elapsed_time;
 }
+
+advance_to_digit :: (input : *string)
+{
+	index := find_index_of_any_from_left(<<input, "0123456789");
+	advance(input, index-1);
+}
+
+read_next_int :: (input : *string) -> int
+{
+	advance_to_digit(input); 
+	value, success := parse_int(input);
+	if !success print("Read int failed \n");
+	
+	return value;
+}
+
+read_file_to_lines :: (filename : string) -> [] string
+{
+	content := read_entire_file(filename);
+	return split(content, "\r\n");
+}

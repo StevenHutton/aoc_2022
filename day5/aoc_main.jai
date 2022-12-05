@@ -7,26 +7,10 @@
 
 #load "../useful_stuff.jai";
 
-advance_to_digit :: (input : *string)
-{
-	index := find_index_of_any_from_left(<<input, "0123456789");
-	advance(input, index-1);
-}
-
-read_next_int :: (input : *string) -> int
-{
-	advance_to_digit(input); 
-	value, success := parse_int(input);
-	if !success print("Read int failed \n");
-	
-	return value;
-}
-
 puzzle_func :: ()
 {
 	print("Puzzle One : \n");
-	content, success := read_entire_file("input.txt");
-	lines := split(content, "\r\n");
+	lines := read_file_to_lines("input.txt");
 	
 	stacks : [9][..]u8;
 	place := 0;
@@ -54,7 +38,7 @@ puzzle_func :: ()
 		destination = read_next_int(*line);
 		
 		source -= 1;
-		destination-=1;
+		destination -= 1;
 		
 		for 0..tomove-1 {
 			array_add(*stacks[destination], pop(*stacks[source]));
@@ -71,15 +55,13 @@ puzzle_func :: ()
 puzzle_func_2 :: ()
 {
 	print("Puzzle Two : \n");
-	content, success := read_entire_file("input.txt");
-	lines := split(content, "\r\n");
+	lines := read_file_to_lines("input.txt");
 	
 	stacks : [9][..]u8;
 	place := 0;
 	for line : lines {
 		cursor := 0;
 		while (cursor*4) < line.count {
-			
 			char := line[(cursor*4)+1];
 			if char >= 65 && char <= 90 array_insert_at(*stacks[cursor], char, 0);
 			cursor += 1;
@@ -99,8 +81,8 @@ puzzle_func_2 :: ()
 		tomove = read_next_int(*line);
 		source = read_next_int(*line);
 		destination = read_next_int(*line);
-		source-=1;
-		destination-=1;
+		source -= 1;
+		destination -= 1;
 		
 		stack : []u8 = stacks[source];
 		stack.data += (stack.count)-tomove;
