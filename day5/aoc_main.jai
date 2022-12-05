@@ -13,11 +13,13 @@ advance_to_digit :: (input : *string)
 	advance(input, index-1);
 }
 
-read_next_int :: (input : *string) -> int, bool
+read_next_int :: (input : *string) -> int
 {
 	advance_to_digit(input); 
 	value, success := parse_int(input);
-	return value, success;
+	if !success print("Read int failed \n");
+	
+	return value;
 }
 
 puzzle_func :: ()
@@ -46,11 +48,10 @@ puzzle_func :: ()
 	for place..lines.count-1 {
 		line : string = lines[it];
 		tomove, source, destination : int;
-		success : bool;
 		
-		tomove, success = read_next_int(*line);
-		source, success = read_next_int(*line);
-		destination, success = read_next_int(*line);
+		tomove = read_next_int(*line);
+		source = read_next_int(*line);
+		destination = read_next_int(*line);
 		
 		source -= 1;
 		destination-=1;
@@ -95,9 +96,9 @@ puzzle_func_2 :: ()
 		line := lines[it];
 		tomove, source, destination : int;
 		success : bool;
-		tomove, success = read_next_int(*line);
-		source, success = read_next_int(*line);
-		destination, success = read_next_int(*line);
+		tomove = read_next_int(*line);
+		source = read_next_int(*line);
+		destination = read_next_int(*line);
 		source-=1;
 		destination-=1;
 		
