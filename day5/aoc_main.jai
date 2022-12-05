@@ -7,6 +7,19 @@
 
 #load "../useful_stuff.jai";
 
+advance_to_digit :: (input : *string)
+{
+	index := find_index_of_any_from_left(<<input, "0123456789");
+	advance(input, index-1);
+}
+
+read_next_int :: (input : *string) -> int, bool
+{
+	advance_to_digit(input); 
+	value, success := parse_int(input);
+	return value, success;
+}
+
 puzzle_func :: ()
 {
 	print("Puzzle One : \n");
@@ -18,7 +31,6 @@ puzzle_func :: ()
 	for line : lines {
 		cursor := 0;
 		while (cursor*4) < line.count {
-			
 			char := line[(cursor*4)+1];
 			if char >= 65 && char <= 90 array_insert_at(*stacks[cursor], char, 0);
 			cursor += 1;
@@ -32,16 +44,15 @@ puzzle_func :: ()
 	}
 	
 	for place..lines.count-1 {
-		line := lines[it];
+		line : string = lines[it];
 		tomove, source, destination : int;
 		success : bool;
-		advance(*line, 5);
-		tomove, success = parse_int(*line);
-		advance(*line, 6);
-		source, success = parse_int(*line);
+		
+		tomove, success = read_next_int(*line);
+		source, success = read_next_int(*line);
+		destination, success = read_next_int(*line);
+		
 		source -= 1;
-		advance(*line, 4);
-		destination, success = parse_int(*line);
 		destination-=1;
 		
 		for 0..tomove-1 {
@@ -53,12 +64,7 @@ puzzle_func :: ()
 	for stack : stacks {
 		output[it_index] = peek(stack);
 	}
-	
-	output_string : string;
-	output_string.data = *output[0];
-	output_string.count = 9;
-	
-	print("%\n", output_string);
+	print("%\n", cast(string)output);
 }
 
 puzzle_func_2 :: ()
@@ -89,13 +95,10 @@ puzzle_func_2 :: ()
 		line := lines[it];
 		tomove, source, destination : int;
 		success : bool;
-		advance(*line, 5);
-		tomove, success = parse_int(*line);
-		advance(*line, 6);
-		source, success = parse_int(*line);
-		source -= 1;
-		advance(*line, 4);
-		destination, success = parse_int(*line);
+		tomove, success = read_next_int(*line);
+		source, success = read_next_int(*line);
+		destination, success = read_next_int(*line);
+		source-=1;
 		destination-=1;
 		
 		stack : []u8 = stacks[source];
@@ -105,17 +108,11 @@ puzzle_func_2 :: ()
 		array_add(*stacks[destination], ..stack);
 	}
 	
-	
 	output : [9]u8;
 	for stack : stacks {
 		output[it_index] = peek(stack);
 	}
-	
-	output_string : string;
-	output_string.data = *output[0];
-	output_string.count = 9;
-	
-	print("%\n", output_string);
+	print("%\n", cast(string)output);
 }
 
 main :: ()
