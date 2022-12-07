@@ -13,6 +13,10 @@ puzzle_func :: ()
 {
 	print("Puzzle One : \n");
 	lines := read_file_to_lines("input.txt");
+	index, size := read_directory_from_lines(lines, 0);
+	if size < 100000 {
+		answer1 += size;
+	}
 	print("%\n", answer1);
 }
 
@@ -55,7 +59,7 @@ puzzle_func_2 :: ()
 {
 	print("Puzzle Two : \n");
 	lines := read_file_to_lines("input.txt");
-	print("%\n", result);
+	
 }
 
 main :: ()
