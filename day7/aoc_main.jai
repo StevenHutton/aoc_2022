@@ -47,13 +47,13 @@ get_required_space :: () -> int
 	return required_space;
 }
 
-required_space :: #run get_required_space();
 
 puzzle_func_2 :: ()
 {
 	print("Puzzle Two : \n");
 	lines := read_file_to_lines("input.txt");
 	
+	required_space :: #run get_required_space();
 	index, outer_size := recurse_directories(lines, 0, (a) => { if a > required_space && a < answer2 answer2 = a;});
 	print("%\n", answer2);
 }
