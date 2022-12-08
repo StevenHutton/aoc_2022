@@ -8,12 +8,13 @@
 #load "../useful_stuff.jai";
 
 answer1 := 0;
+answer2 := 10000000000;
 
 test_func :: ()
 {
 	print("Test : \n");
 	lines := read_file_to_lines("test.txt");
-	index, size := read_directory_from_lines(lines, 0);
+	index, size := recurse_directories(lines, 0, (a) => {if a < 100000 answer1 += a;});
 	if size <= 100000 {
 		answer1 += size;
 	}
@@ -25,14 +26,42 @@ puzzle_func :: ()
 	answer1 = 0;
 	print("Puzzle One : \n");
 	lines := read_file_to_lines("input.txt");
-	index, size := read_directory_from_lines(lines, 0);
+	index, size := recurse_directories(lines, 0, (a) => {if a < 100000 answer1 += a;});
 	if size <= 100000 {
 		answer1 += size;
 	}
 	print("%\n", answer1);
 }
 
-read_directory_from_lines :: (lines: []string, starting_index : int) -> int, int
+get_required_space :: () -> int
+{
+	lines := read_file_to_lines("input.txt");
+	
+	total_size :: 70_000_000;
+	required_free :: 30_000_000;
+	
+	index, outer_size := recurse_directories(lines, 0, (a) => {});
+	
+	free_space := total_size - outer_size;
+	required_space := required_free - free_space;
+	return required_space;
+}
+
+required_space :: #run get_required_space();
+
+puzzle_func_2 :: ()
+{
+	print("Puzzle Two : \n");
+	lines := read_file_to_lines("input.txt");
+	
+	total_size :: 70_000_000;
+	required_free :: 30_000_000;
+	
+	index, outer_size := recurse_directories(lines, 0, (a) => { if a > required_space && a < answer2 answer2 = a;});
+	print("%\n", answer2);
+}
+
+recurse_directories :: (lines: []string, starting_index : int, func : (x : int)) -> int, int
 {
 	index := starting_index;
 	test_line := lines[index];
@@ -49,12 +78,10 @@ read_directory_from_lines :: (lines: []string, starting_index : int) -> int, int
 		if begins_with(line, "$ cd ..") return index, dir_size;
 		if begins_with(line, "$ cd ")
 		{
-			index2, size := read_directory_from_lines(lines, index);
+			index2, size := recurse_directories(lines, index, func);
 			index = index2;
 			dir_size += size;
-			if size <= 100000 { 
-				answer1 += size;
-			}
+			func(size);
 			continue;
 		}
 		value, success := parse_int(*line);
@@ -62,13 +89,6 @@ read_directory_from_lines :: (lines: []string, starting_index : int) -> int, int
 		dir_size += value;
 	}
 	return index, dir_size;
-}
-
-puzzle_func_2 :: ()
-{
-	print("Puzzle Two : \n");
-	lines := read_file_to_lines("input.txt");
-	
 }
 
 main :: ()
