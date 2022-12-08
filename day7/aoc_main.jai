@@ -54,9 +54,6 @@ puzzle_func_2 :: ()
 	print("Puzzle Two : \n");
 	lines := read_file_to_lines("input.txt");
 	
-	total_size :: 70_000_000;
-	required_free :: 30_000_000;
-	
 	index, outer_size := recurse_directories(lines, 0, (a) => { if a > required_space && a < answer2 answer2 = a;});
 	print("%\n", answer2);
 }
