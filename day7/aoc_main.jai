@@ -47,7 +47,6 @@ get_required_space :: () -> int
 	return required_space;
 }
 
-
 puzzle_func_2 :: ()
 {
 	print("Puzzle Two : \n");

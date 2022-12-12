@@ -95,6 +95,7 @@ puzzle_func_2 :: ()
 
 main :: ()
 {
+	print("%\n", test);
 	temp_context := context;
 	temp_context.allocator = temp;
 	
