@@ -36,9 +36,6 @@ increment_counter :: ()
 		global_counter == 220 {
 		global_signal_strength += global_register * global_counter;
 	}
-	
-	
-	
 }
 
 puzzle_func :: ()
