@@ -48,7 +48,7 @@ move_points :: (direction: point, distance : int, head : point, tail: point) -> 
 	t := tail;
 	for 0..distance-1 {
 		h = h + direction;
-		follow_point(h, *t);
+		follow_point(*h, *t);
 		array_add_if_unique(*locations, t);
 	}
 	
@@ -59,17 +59,17 @@ move_points_2 :: (direction: point, distance : int, points : []point) {
 	for 0..distance-1 {
 		points[0] = points[0] + direction;
 		for 0..points.count-2 {
-			follow_point(points[it], *points[it+1]);
+			follow_point(*points[it], *points[it+1]);
 		}
 		array_add_if_unique(*locations, points[points.count-1]);
 	}
 }
 
-follow_point :: (h : point, t : *point) {
+follow_point :: (h : *point, t : *point) {
 	//if we're far enough away
 	if abs(h.x - t.x) > 1 || abs(h.y - t.y) > 1
 	{
-		dif:= h - t;
+		dif:= <<h - <<t;
 		if dif.x > 0 t.x += 1;
 		else if dif.x < 0 t.x -= 1;
 		if dif.y > 0 t.y += 1;
