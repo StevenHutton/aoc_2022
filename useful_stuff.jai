@@ -25,13 +25,13 @@ advance_to_digit :: (input : *string)
 	advance(input, index-1);
 }
 
-read_next_int :: (input : *string) -> int
+read_next_int :: (input : *string) -> int, bool
 {
 	advance_to_digit(input); 
 	value, success := parse_int(input);
 	if !success print("Read int failed \n");
 	
-	return value;
+	return value, success;
 }
 
 read_file_to_lines :: (filename : string) -> [] string
